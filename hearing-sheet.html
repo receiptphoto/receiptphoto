@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ヒアリングシート | レシートフォト</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FAF8F3;
+    --surface:#FFFFFF;
+    --line:#E7E1D4;
+    --ink:#2A2724;
+    --ink-soft:#615C54;
+    --gold:#A9824F;
+    --blush:#C98F86;
+    --blush-bg:#F7ECE9;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:'Zen Kaku Gothic New', sans-serif;
+    -webkit-font-smoothing:antialiased; line-height:1.7;
+    padding: 0 0 80px;
+  }
+  a{ color:var(--gold); }
+  .wrap{ max-width:680px; margin:0 auto; padding:0 24px; }
+  h1{ font-family:'Shippori Mincho', serif; font-weight:700; margin:0; }
+
+  header{ border-bottom:1px solid var(--line); padding:20px 0; margin-bottom:8px; }
+  .logo{ font-family:'Shippori Mincho', serif; font-size:18px; font-weight:700; }
+  .logo span{ color:var(--gold); }
+
+  .intro{ padding:40px 0 8px; }
+  .eyebrow{
+    font-size:12px; letter-spacing:0.18em; color:var(--gold);
+    text-transform:uppercase; font-weight:700; margin-bottom:14px; display:block;
+  }
+  .intro h1{ font-size: clamp(22px, 4.2vw, 27px); margin-bottom:18px; }
+  .greeting{
+    background:var(--surface); border:1px solid var(--line); padding:24px 28px;
+    font-size:14px; color:var(--ink); margin-bottom:36px; white-space:pre-line;
+  }
+
+  form{ background:var(--surface); border:1px solid var(--line); padding:40px; }
+
+  .q-item{ margin-bottom:32px; }
+  .q-item:last-of-type{ margin-bottom:0; }
+  .q-num{
+    font-family:'Shippori Mincho', serif; font-size:13px; font-weight:700; color:var(--gold);
+    margin-right:6px;
+  }
+  .q-title{ font-size:14.5px; font-weight:700; color:var(--ink); }
+  .q-hint{ font-size:12px; color:var(--ink-soft); margin:6px 0 0; }
+  .q-hint a{ word-break:break-all; }
+
+  .form-field{ margin-top:12px; }
+  .form-field input,
+  .form-field select,
+  .form-field textarea{
+    width:100%; border:1px solid var(--line); background:#fff;
+    font-family:'Zen Kaku Gothic New', sans-serif; font-size:14px; padding:11px 12px; color:var(--ink);
+  }
+  .form-field input:focus,
+  .form-field select:focus,
+  .form-field textarea:focus{ outline:none; border-color:var(--gold); }
+  .form-field textarea{ resize:vertical; min-height:80px; }
+
+  .zip-row{ display:flex; gap:10px; align-items:center; margin-top:12px; }
+  .zip-row span{ font-size:13px; color:var(--ink-soft); flex:0 0 auto; }
+  .zip-row input{ flex:0 0 140px; }
+
+  .radio-row{ display:flex; gap:20px; flex-wrap:wrap; margin-top:12px; }
+  .radio-row label{
+    display:flex; align-items:center; gap:6px; font-weight:400; font-size:13.5px; color:var(--ink);
+  }
+  .radio-row input{ width:auto; }
+
+  .submit-btn{
+    width:100%; background:var(--ink); color:#fff; padding:16px; font-weight:700; font-size:14.5px;
+    border:none; cursor:pointer; margin-top:36px;
+  }
+  .submit-btn:hover{ background:#000; }
+  .submit-btn:focus-visible{ outline:3px solid var(--blush); outline-offset:3px; }
+
+  .note{ font-size:12px; color:var(--ink-soft); text-align:center; margin-top:16px; }
+
+  footer{ text-align:center; margin-top:50px; }
+  footer p{ font-size:12px; color:var(--ink-soft); margin:4px 0; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="logo">レシート<span>フォト</span></div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="intro">
+    <span class="eyebrow">hearing sheet</span>
+    <h1>ヒアリングシート</h1>
+  </div>
+
+  <div class="greeting">【レシートフォト】です！
+
+お世話になっております。
+以下のヒアリングシートにご回答いただけますでしょうか！</div>
+
+  <!--
+    差し替えガイド:
+    下の action の値を、あなたのFormspreeフォームURL
+    （例: https://formspree.io/f/xxxxxxxx）に置き換えてください。
+  -->
+  <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+
+    <div class="q-item">
+      <span class="q-num">①</span><span class="q-title">お名前（フルネーム）</span>
+      <div class="form-field">
+        <input type="text" name="お名前" required>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <span class="q-num">②</span><span class="q-title">配送先ご住所（自宅でも式場でも可）</span>
+      <div class="zip-row">
+        <span>〒</span>
+        <input type="text" name="配送先郵便番号" placeholder="000-0000">
+      </div>
+      <div class="form-field">
+        <input type="text" name="配送先住所" placeholder="都道府県から番地・建物名まで" required>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <span class="q-num">③</span><span class="q-title">式場名</span>
+      <div class="form-field">
+        <input type="text" name="式場名" required>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <span class="q-num">④</span><span class="q-title">式場住所</span>
+      <p class="q-hint">②と同じ場合は省略可</p>
+      <div class="zip-row">
+        <span>〒</span>
+        <input type="text" name="式場郵便番号" placeholder="000-0000">
+      </div>
+      <div class="form-field">
+        <input type="text" name="式場住所" placeholder="②と同じ場合は空欄でOK">
+      </div>
+    </div>
+
+    <div class="q-item">
+      <span class="q-num">⑤</span><span class="q-title">挙式日</span>
+      <div class="form-field">
+        <input type="date" name="挙式日" required>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <span class="q-num">⑥</span><span class="q-title">レシート上部メッセージ</span>
+      <p class="q-hint">例：THANK YOU FOR COMING🤍</p>
+      <div class="form-field">
+        <input type="text" name="レシート上部メッセージ" placeholder="THANK YOU FOR COMING🤍">
+      </div>
+    </div>
+
+    <div class="q-item">
+      <span class="q-num">⑦</span><span class="q-title">レシート下部</span>
+      <div class="radio-row">
+        <label><input type="radio" name="レシート下部" value="ロゴ掲載" required> ロゴ掲載</label>
+        <label><input type="radio" name="レシート下部" value="なし"> なし</label>
+      </div>
+      <p class="q-hint">「ロゴ掲載」を選ばれた方は、このトーク画面にロゴ画像を送付してください（高画質の画像だと綺麗に印刷できます）。</p>
+    </div>
+
+    <div class="q-item">
+      <span class="q-num">⑧</span><span class="q-title">テーマカラー</span>
+      <p class="q-hint">
+        以下のリンクでカラー一覧（①〜⑨）をご確認の上、番号でお答えください。<br>
+        <a href="https://vt.tiktok.com/ZSQTnp7Vk/" target="_blank" rel="noopener">https://vt.tiktok.com/ZSQTnp7Vk/</a>
+      </p>
+      <div class="form-field">
+        <select name="テーマカラー" required>
+          <option value="">選択してください</option>
+          <option value="①">①</option>
+          <option value="②">②</option>
+          <option value="③">③</option>
+          <option value="④">④</option>
+          <option value="⑤">⑤</option>
+          <option value="⑥">⑥</option>
+          <option value="⑦">⑦</option>
+          <option value="⑧">⑧</option>
+          <option value="⑨">⑨</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <span class="q-num">⑨</span><span class="q-title">その他ご要望</span>
+      <p class="q-hint">任意</p>
+      <div class="form-field">
+        <textarea name="その他ご要望" placeholder="気になる点があればご記入ください"></textarea>
+      </div>
+    </div>
+
+    <button type="submit" class="submit-btn">この内容を送信する</button>
+    <p class="note">送信いただいた内容は、担当者宛にメールで届きます。</p>
+  </form>
+
+  <footer>
+    <p>© 2026 レシートフォト</p>
+  </footer>
+</div>
+
+</body>
+</html>
