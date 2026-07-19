@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>レシプリ | 結婚式のためのレシート型フォトブース</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF7F1;
+    --paper-shadow:#E4DED0;
+    --stage:#2A2724;
+    --ink:#2A2724;
+    --ink-soft:#5A5650;
+    --blush:#C98F86;
+    --gold:#A9824F;
+    --gray-mute:#9C9690;
+    --stamp-red:#B23A2E;
+  }
+
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse at top, #37332F 0%, var(--stage) 60%);
+    color:var(--ink);
+    font-family:'Zen Kaku Gothic New', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    padding: 48px 16px 96px;
+  }
+
+  .receipt{
+    max-width:640px;
+    margin:0 auto;
+    background:var(--paper);
+    position:relative;
+    padding: 8px 0 0;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.45), 0 4px 12px rgba(0,0,0,0.3);
+  }
+
+  .receipt::before,
+  .receipt::after{
+    content:"";
+    position:absolute;
+    left:0; right:0;
+    height:14px;
+    background:
+      linear-gradient(135deg, transparent 50%, var(--stage) 50%) 0 0/14px 14px repeat-x,
+      linear-gradient(-135deg, transparent 50%, var(--stage) 50%) 0 0/14px 14px repeat-x;
+    background-color: var(--paper);
+    -webkit-mask: linear-gradient(#000,#000);
+  }
+  .receipt::before{ top:-13px; }
+  .receipt::after{ bottom:-13px; transform:scaleY(-1); }
+
+  .rpad{ padding: 44px 40px; }
+
+  /* ---------- Header ---------- */
+  .meta-line{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+    color:var(--ink-soft);
+    display:flex;
+    justify-content:space-between;
+    text-transform:uppercase;
+    padding-bottom:18px;
+  }
+
+  .brand{
+    text-align:center;
+    padding-bottom: 6px;
+  }
+  .brand .mark{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.35em;
+    color:var(--gold);
+    text-transform:uppercase;
+  }
+  .brand h1{
+    font-family:'Shippori Mincho', serif;
+    font-size: clamp(34px, 8vw, 46px);
+    font-weight:700;
+    letter-spacing:0.06em;
+    margin: 6px 0 4px;
+  }
+  .brand .kana{
+    font-size:13px;
+    color:var(--ink-soft);
+    letter-spacing:0.3em;
+  }
+
+  .divider{
+    border:none;
+    border-top:2px dashed #D9D2C3;
+    margin: 28px 0;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero-copy{ text-align:center; padding-bottom: 6px; }
+  .hero-copy .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.2em;
+    color:var(--blush);
+    text-transform:uppercase;
+    display:block;
+    margin-bottom:14px;
+  }
+  .hero-copy h2{
+    font-family:'Shippori Mincho', serif;
+    font-size: clamp(26px, 6vw, 34px);
+    line-height:1.6;
+    font-weight:700;
+    margin:0 0 20px;
+  }
+  .hero-copy p{
+    font-size:14.5px;
+    line-height:2;
+    color:var(--ink-soft);
+    max-width:440px;
+    margin:0 auto;
+  }
+
+  /* ---------- Printed photo mock ---------- */
+  .print-mock{
+    margin: 40px auto 8px;
+    max-width:300px;
+    background:#fff;
+    padding: 14px 14px 20px;
+    box-shadow: 0 18px 30px rgba(0,0,0,0.18);
+    transform: rotate(-2deg);
+  }
+  .print-mock .photo{
+    aspect-ratio: 4/5;
+    background:
+      linear-gradient(160deg, #E9D9CC 0%, #D9B8B0 32%, #B98C86 62%, #8E6F63 100%);
+    position:relative;
+    overflow:hidden;
+  }
+  .print-mock .photo::after{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      radial-gradient(circle at 30% 25%, rgba(255,255,255,0.35), transparent 40%),
+      radial-gradient(circle at 70% 80%, rgba(0,0,0,0.15), transparent 45%);
+  }
+  .print-mock .cap{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px;
+    color:var(--ink-soft);
+    text-align:center;
+    letter-spacing:0.04em;
+    margin-top:12px;
+  }
+
+  /* ---------- Itemized sections ---------- */
+  .section-title{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.15em;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+    margin: 0 0 20px;
+  }
+
+  .flow-item{
+    display:flex;
+    gap:16px;
+    align-items:flex-start;
+    padding: 14px 0;
+    border-bottom: 1px dotted #DDD5C5;
+  }
+  .flow-item:last-child{ border-bottom:none; }
+  .flow-item .num{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    color:var(--gold);
+    padding-top:2px;
+    flex:0 0 28px;
+  }
+  .flow-item .txt h3{
+    font-family:'Shippori Mincho', serif;
+    font-size:16px;
+    margin:0 0 4px;
+    font-weight:700;
+  }
+  .flow-item .txt p{
+    font-size:13px;
+    color:var(--ink-soft);
+    line-height:1.8;
+    margin:0;
+  }
+
+  /* ---------- Pricing (receipt style) ---------- */
+  .price-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:10px;
+    font-size:13.5px;
+    padding:10px 0;
+  }
+  .price-row .label{ color:var(--ink); }
+  .price-row .dots{
+    flex:1;
+    border-bottom:1px dotted #C9C1AF;
+    margin-bottom:5px;
+  }
+  .price-row .amount{
+    font-family:'JetBrains Mono', monospace;
+    white-space:nowrap;
+  }
+  .price-total{
+    display:flex;
+    justify-content:space-between;
+    margin-top:14px;
+    padding-top:14px;
+    border-top:2px solid var(--ink);
+    font-family:'JetBrains Mono', monospace;
+    font-size:15px;
+    font-weight:700;
+  }
+  .price-note{
+    font-size:11.5px;
+    color:var(--gray-mute);
+    margin-top:10px;
+  }
+
+  /* ---------- CTA / Hanko ---------- */
+  .cta-wrap{ text-align:center; padding: 12px 0 4px; }
+  .hanko{
+    width:76px; height:76px;
+    margin:0 auto 20px;
+    border-radius:50%;
+    border:2.5px solid var(--stamp-red);
+    color:var(--stamp-red);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Shippori Mincho', serif;
+    font-size:15px;
+    font-weight:700;
+    letter-spacing:0.15em;
+    writing-mode: vertical-rl;
+    transform: rotate(-6deg);
+    opacity:0.9;
+  }
+  .cta-btn{
+    display:inline-block;
+    font-family:'Zen Kaku Gothic New', sans-serif;
+    font-weight:700;
+    font-size:14.5px;
+    background:var(--ink);
+    color:var(--paper);
+    padding:16px 40px;
+    text-decoration:none;
+    letter-spacing:0.05em;
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+  .cta-btn:hover{ background:#000; }
+  .cta-btn:focus-visible{
+    outline:3px solid var(--blush);
+    outline-offset:3px;
+  }
+  .cta-sub{
+    font-size:12px;
+    color:var(--ink-soft);
+    margin-top:14px;
+  }
+
+  /* ---------- Footer ---------- */
+  .barcode{
+    height:34px;
+    margin: 30px 0 14px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--ink) 0px, var(--ink) 2px,
+      transparent 2px, transparent 4px,
+      var(--ink) 4px, var(--ink) 5px,
+      transparent 5px, transparent 9px,
+      var(--ink) 9px, var(--ink) 12px,
+      transparent 12px, transparent 14px
+    );
+  }
+  .thanks{
+    text-align:center;
+    font-family:'Shippori Mincho', serif;
+    font-size:15px;
+    letter-spacing:0.3em;
+    margin-bottom:6px;
+  }
+  .foot-meta{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px;
+    color:var(--gray-mute);
+    text-align:center;
+    line-height:1.9;
+  }
+  .foot-meta a{ color:var(--ink-soft); }
+
+  /* ---------- Reveal ---------- */
+  .reveal{
+    opacity:0;
+    transform: translateY(14px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.in{ opacity:1; transform:none; }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ opacity:1; transform:none; transition:none; }
+    .cta-btn{ transition:none; }
+  }
+
+  @media (max-width:480px){
+    .rpad{ padding: 34px 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="receipt">
+  <div class="rpad">
+
+    <div class="meta-line">
+      <span>No. 0001</span>
+      <span>2026.07.19</span>
+    </div>
+
+    <div class="brand">
+      <span class="mark">Instant Photo Booth</span>
+      <h1>レシプリ</h1>
+      <span class="kana">R E C E P R I</span>
+    </div>
+
+    <hr class="divider">
+
+    <section class="hero-copy reveal">
+      <span class="eyebrow">for wedding reception</span>
+      <h2>撮った瞬間が、<br>手のひらのレシートになる。</h2>
+      <p>
+        専用プリンターで、その場で撮った写真がレシートのようにすぐ印刷される、結婚式向けのフォトブースです。<br>
+        ゲストは待たずに受け取り、そのまま小さな思い出としてお土産に。
+      </p>
+    </section>
+
+    <div class="print-mock reveal">
+      <div class="photo"></div>
+      <div class="cap">2026.09.14&nbsp;&nbsp;15:42&nbsp;&nbsp;GUEST ALL</div>
+    </div>
+
+    <hr class="divider">
+
+    <section class="reveal">
+      <p class="section-title">ご利用の流れ</p>
+      <div class="flow-item">
+        <span class="num">01</span>
+        <div class="txt">
+          <h3>カメラの前に立つ</h3>
+          <p>ブース内で好きなポーズで撮影。スタッフの誘導は最小限、ゲスト自身のタイミングで。</p>
+        </div>
+      </div>
+      <div class="flow-item">
+        <span class="num">02</span>
+        <div class="txt">
+          <h3>送信・出力</h3>
+          <p>撮影データがその場で専用プリンターに送られます。</p>
+        </div>
+      </div>
+      <div class="flow-item">
+        <span class="num">03</span>
+        <div class="txt">
+          <h3>レシートのように印刷</h3>
+          <p>数秒後、細長いレシート用紙に写真が印刷されて出てきます。</p>
+        </div>
+      </div>
+      <div class="flow-item">
+        <span class="num">04</span>
+        <div class="txt">
+          <h3>お土産に</h3>
+          <p>ちぎって、財布やアルバムに。会話のきっかけにもなる小さな一枚です。</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <section class="reveal">
+      <p class="section-title">料金プラン（お試し内容）</p>
+
+      <div class="price-row">
+        <span class="label">スタンダードプラン（3時間）</span>
+        <span class="dots"></span>
+        <span class="amount">¥98,000</span>
+      </div>
+      <div class="price-row">
+        <span class="label">ロングプラン（5時間）</span>
+        <span class="dots"></span>
+        <span class="amount">¥148,000</span>
+      </div>
+      <div class="price-row">
+        <span class="label">アルバム連動オプション</span>
+        <span class="dots"></span>
+        <span class="amount">¥15,000</span>
+      </div>
+      <div class="price-row">
+        <span class="label">出張費（都内）</span>
+        <span class="dots"></span>
+        <span class="amount">¥0</span>
+      </div>
+
+      <div class="price-total">
+        <span>合計（スタンダード目安）</span>
+        <span>¥98,000〜</span>
+      </div>
+      <p class="price-note">※ 表示価格は試作段階の仮のものです。会場・時間帯により調整いたします。</p>
+    </section>
+
+    <hr class="divider">
+
+    <section class="cta-wrap reveal">
+      <div class="hanko">受付中</div>
+      <a href="#" class="cta-btn">空き状況を問い合わせる</a>
+      <p class="cta-sub">式場のご担当者様・おふたり、どちらからのご相談も歓迎です</p>
+    </section>
+
+    <div class="barcode"></div>
+    <p class="thanks">ありがとうございました</p>
+    <p class="foot-meta">
+      RECEIPT PHOTO BOOTH FOR WEDDINGS<br>
+      お問い合わせ：<a href="mailto:hello@example.com">hello@example.com</a><br>
+      © 2026 Recepri
+    </p>
+
+  </div>
+</div>
+
+<script>
+  const items = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.15 });
+  items.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
